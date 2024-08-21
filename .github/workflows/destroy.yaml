@@ -3,9 +3,16 @@ name: Deploy to AWS
 # Manual workflow
 on: workflow_dispatch
 
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_SESSION_TOKEN: ${{secrets.AWS_SESSION_TOKEN}}
+  AWS_DEFAULT_REGION: 'us-east-1'
+
 jobs:
   terraform:
     runs-on: ubuntu-latest
+
 
     steps:
       - name: checkout
@@ -13,9 +20,6 @@ jobs:
   
       - name: setup-terraform
         uses: hashicorp/setup-terraform@v1
-
-      - name: get-credentials
-        run: echo ${{secrets.AWS_CREDENTIALS}} > ~/.aws/credentials
 
       - name: terraform-init
         run: terraform -chdir=./mysql init
