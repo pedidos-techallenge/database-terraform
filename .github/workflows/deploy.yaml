@@ -1,0 +1,29 @@
+name: Deploy to AWS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+  
+      - name: setup-terraform
+        uses: hashicorp/setup-terraform@v1
+
+      - name: get-credentials
+        uses: ${{secrest.AWS_CREDENTIALS}} > ~/.aws/credentials
+
+      - name: terraform-init
+        uses: terraform -chdir=./mysql init
+
+      - name: terraform-plan
+        uses: terraform -chdir=./mysql plan
+
+      - name: terraform-apply
+        uses: terraform -chdir=./mysql apply
