@@ -17,7 +17,7 @@ jobs:
         uses: hashicorp/setup-terraform@v1
 
       - name: get-credentials
-        run: ${{secrets.AWS_CREDENTIALS}} > ~/.aws/credentials
+        run: echo ${{secrets.AWS_CREDENTIALS}} > ~/.aws/credentials
 
       - name: terraform-init
         run: terraform -chdir=./mysql init
