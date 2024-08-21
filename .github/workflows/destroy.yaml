@@ -25,4 +25,4 @@ jobs:
         run: terraform -chdir=./mysql init
 
       - name: terraform-plan
-        run: terraform -chdir=./mysql destroy -auto-aprove
+        run: terraform -chdir=./mysql destroy -auto-approve
