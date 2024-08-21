@@ -1,7 +1,7 @@
 name: Deploy to AWS
 
 on:
-  push:
+  pull_requests:
     branches:
       - main
 
@@ -22,8 +22,8 @@ jobs:
       - name: setup-terraform
         uses: hashicorp/setup-terraform@v1
 
-      - name: terraform-init
-        run: terraform -chdir=./mysql init
+      - name: terraform-format-check
+        run: terraform -chdir=./mysql fmt -check
 
-      - name: terraform-apply
-        run: terraform -chdir=./mysql apply -auto-approve
+      - name: terraform-validate
+        run: terraform -chdir=./mysql validate
