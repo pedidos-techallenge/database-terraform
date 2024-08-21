@@ -17,13 +17,13 @@ jobs:
         uses: hashicorp/setup-terraform@v1
 
       - name: get-credentials
-        uses: ${{secrest.AWS_CREDENTIALS}} > ~/.aws/credentials
+        run: ${{secrest.AWS_CREDENTIALS}} > ~/.aws/credentials
 
       - name: terraform-init
-        uses: terraform -chdir=./mysql init
+        run: terraform -chdir=./mysql init
 
       - name: terraform-plan
-        uses: terraform -chdir=./mysql plan
+        run: terraform -chdir=./mysql plan
 
       - name: terraform-apply
-        uses: terraform -chdir=./mysql apply
+        run: terraform -chdir=./mysql apply
