@@ -1,4 +1,4 @@
-name: Deploy to AWS
+name: Destroy rds database
 
 # Manual workflow
 on: workflow_dispatch
