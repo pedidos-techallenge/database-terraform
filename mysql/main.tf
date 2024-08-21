@@ -1,7 +1,4 @@
-provider "aws" {
-    region = "us-east-1"
-    profile = "default"
-}
+provider "aws" {}
 
 # TODO: create a resource for retrieving password from secret manager
 
