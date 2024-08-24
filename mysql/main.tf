@@ -1,3 +1,12 @@
+terraform {
+  backend "s3" {
+    bucket = "techchallenge-fiap-terraform-state"
+    region = "us-east-1"
+    key = "mysql.tfstate"
+  }
+}
+
+
 provider "aws" {}
 
 # TODO: create a resource for retrieving password from secret manager
