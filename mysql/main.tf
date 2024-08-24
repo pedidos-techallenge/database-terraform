@@ -1,11 +1,6 @@
 terraform {
-  backend "s3" {
-    bucket = "techchallenge-fiap-terraform-state"
-    region = "us-east-1"
-    key = "mysql.tfstate"
-  }
+  backend "s3" {}
 }
-
 
 provider "aws" {}
 
@@ -17,8 +12,8 @@ resource "aws_db_instance" "test_mysql" {
     allocated_storage = 20
     engine_version = "8.0.35"
     instance_class = "db.t3.small"
-    username = "admin"
-    password = "<placeholder>"
+    username = var.MYSQL_USERNAME
+    password = var.MYSQL_PASSWORD
     skip_final_snapshot = true
     publicly_accessible = false
     multi_az = false

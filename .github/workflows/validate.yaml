@@ -1,4 +1,4 @@
-name: Deploy to AWS
+name: Validate terraform files
 
 on:
   pull_requests:
@@ -10,6 +10,9 @@ env:
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   AWS_SESSION_TOKEN: ${{secrets.AWS_SESSION_TOKEN}}
   AWS_DEFAULT_REGION: 'us-east-1'
+  TF_STATE_BUCKET: ${{ secrets.TF_STATE_BUCKET }}
+  MYSQL_USERNAME: ${{ secrets.MYSQL_USERNAME }}
+  MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
 
 jobs:
   terraform:

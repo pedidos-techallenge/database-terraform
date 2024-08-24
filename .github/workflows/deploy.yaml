@@ -8,8 +8,11 @@ on:
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  AWS_SESSION_TOKEN: ${{secrets.AWS_SESSION_TOKEN}}
+  AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
   AWS_DEFAULT_REGION: 'us-east-1'
+  TF_STATE_BUCKET: ${{ secrets.TF_STATE_BUCKET }}
+  MYSQL_USERNAME: ${{ secrets.MYSQL_USERNAME }}
+  MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
 
 jobs:
   terraform:
@@ -23,7 +26,7 @@ jobs:
         uses: hashicorp/setup-terraform@v1
 
       - name: terraform-init
-        run: terraform -chdir=./mysql init
+        run: terraform -chdir=./mysql init -backend-config="bucket=${TF_STATE_BUCKET}" -backend-config="key=mysql.tfstate" -backend-config="region=us-east-1"
 
       - name: terraform-apply
-        run: terraform -chdir=./mysql apply -auto-approve
+        run: terraform -chdir=./mysql apply -auto-approve -var "MYSQL_USERNAME=${MYSQL_USERNAME}" -var "MYSQL_PASSWORD=${MYSQL_PASSWORD}"
