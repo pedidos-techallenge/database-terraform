@@ -9,7 +9,7 @@ provider "aws" {}
 # Referencing project's vpc to use on other resources
 data "aws_vpc" "techchallenge-vpc" {
   filter {
-    name = "tag:Name"
+    name   = "tag:Name"
     values = ["techchallenge-vpc"]
   }
 }
@@ -17,37 +17,37 @@ data "aws_vpc" "techchallenge-vpc" {
 # Referencing private subnets
 data "aws_subnets" "private-subnets" {
   filter {
-    name = "vpc-id"
+    name   = "vpc-id"
     values = [data.aws_vpc.techchallenge-vpc.id]
   }
 
   filter {
-    name = "tag:Name"
+    name   = "tag:Name"
     values = ["*private*"]
   }
 }
 
 # RDS subnets must be in a sg group
 resource "aws_db_subnet_group" "rds_subnets" {
-  name = "rds_subnets"
+  name       = "rds_subnets"
   subnet_ids = data.aws_subnets.private-subnets.ids
 }
 
 # Creating RDS instance
 resource "aws_db_instance" "test_mysql" {
-  engine              = "mysql"
-  identifier          = "test-mysql"
-  allocated_storage   = 20
-  engine_version      = "8.0.35"
-  instance_class      = "db.t3.small"
-  username            = var.MYSQL_USERNAME
-  password            = var.MYSQL_PASSWORD
-  skip_final_snapshot = true
-  publicly_accessible = false
-  multi_az            = false
-  db_name             = "test_db"
-  port                = 3306
-  db_subnet_group_name    = aws_db_subnet_group.rds_subnets.name
+  engine                 = "mysql"
+  identifier             = "test-mysql"
+  allocated_storage      = 20
+  engine_version         = "8.0.35"
+  instance_class         = "db.t3.small"
+  username               = var.MYSQL_USERNAME
+  password               = var.MYSQL_PASSWORD
+  skip_final_snapshot    = true
+  publicly_accessible    = false
+  multi_az               = false
+  db_name                = "test_db"
+  port                   = 3306
+  db_subnet_group_name   = aws_db_subnet_group.rds_subnets.name
   vpc_security_group_ids = [aws_security_group.rds_sg.id]
 }
 
