@@ -27,41 +27,48 @@ order ||--|{ item : has
 order ||--|| payment : has
 
 order {
-    VARCHAR id PK 
-    INT number_order 
-    VARCHAR status 
+    VARCHAR id PK "NOT NULL"
+    INT number_order "NOT NULL"
+    VARCHAR status "NOT NULL"
+    DATETIME created_at "NOT NULL DEFAULT CURRENT_TIMESTAMP"
+    DATETIME updated_at "ON UPDATE CURRENT_TIMESTAMP"
 }
 
 item {
-    VARCHAR order_id FK
-    VARCHAR sku
-    INT quantity
-    DECIMAL unit_value
+    INT id PK "AUTO_INCREMENT"
+    VARCHAR order_id FK "NOT NULL"
+    VARCHAR sku "NOT NULL"
+    INT quantity "NOT NULL"
+    DECIMAL unit_value "NOT NULL"
+    DECIMAL total_value "(quantity * unit_value)"
 }
 
 payment {
-    VARCHAR id PK
-    VARCHAR order_id FK
-    DECIMAL value
-    VARCHAR method
-    VARCHAR date_payment
-    VARCHAR gateway_payment
-    VARCHAR status
-    VARCHAR reading_code
-    VARCHAR processing_code
+    VARCHAR id PK "NOT NULL"
+    VARCHAR order_id FK "NOT NULL"
+    DECIMAL value "NOT NULL"
+    VARCHAR method "NOT NULL"
+    VARCHAR date_payment "NOT NULL"
+    VARCHAR gateway_payment "NOT NULL"
+    VARCHAR status "NOT NULL"
+    VARCHAR reading_code "NOT NULL"
+    VARCHAR processing_code "NOT NULL"
 }
 
 product {
-    VARCHAR sku PK
-    VARCHAR name
-    VARCHAR description
-    VARCHAR category
-    DECIMAL price
+    VARCHAR sku PK "NOT NULL"
+    VARCHAR name "NOT NULL"
+    VARCHAR description "NOT NULL"
+    VARCHAR category "NOT NULL"
+    DECIMAL price "NOT NULL"
+    DATETIME created_at "NOT NULL DEFAULT CURRENT_TIMESTAMP"
+    DATETIME updated_at "ON UPDATE CURRENT_TIMESTAMP"
 }
 
 customer {
-    VARCHAR cpf PK
-    VARCHAR name
-    VARCHAR email
+    VARCHAR cpf PK "NOT NULL"
+    VARCHAR name "NOT NULL"
+    VARCHAR email "NOT NULL"
+    DATETIME created_at "NOT NULL DEFAULT CURRENT_TIMESTAMP"
 }
 ```

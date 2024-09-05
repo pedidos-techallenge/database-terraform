@@ -12,14 +12,18 @@
     `id` VARCHAR(255) NOT NULL,
     `number_order` INT NOT NULL,
     `status` VARCHAR(50) NOT NULL,
+    `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` DATETIME ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`)
     );
 
     CREATE TABLE IF NOT EXISTS dbtechchallange.item (
+        `id` INT AUTO_INCREMENT PRIMARY KEY,
         `order_id` VARCHAR(255) NOT NULL,
         `sku` VARCHAR(255) NOT NULL,
         `quantity` INT NOT NULL,
         `unit_value` DECIMAL(10, 0) NOT NULL,
+        `total_value` DECIMAL(10, 2) GENERATED ALWAYS AS (quantity * unit_value) STORED,
         FOREIGN KEY (`order_id`) REFERENCES `order`(`id`)
     );
 
@@ -43,6 +47,8 @@
         `description` VARCHAR(255) NOT NULL,
         `category` VARCHAR(100) NOT NULL,
         `price` DECIMAL(10, 2) NOT NULL,
+        `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        `updated_at` DATETIME ON UPDATE CURRENT_TIMESTAMP,
         PRIMARY KEY (`sku`)
     );
 
@@ -50,5 +56,6 @@
         `cpf` VARCHAR(20) NOT NULL,
         `name` VARCHAR(100) NOT NULL,
         `email` VARCHAR(100) NOT NULL,
+        `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         PRIMARY KEY (`cpf`)
     );
