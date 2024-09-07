@@ -1,10 +1,8 @@
 terraform {
-  backend "s3" {}
+  # backend "s3" {}
 }
 
 provider "aws" {}
-
-# TODO: create a resource for retrieving password from secret manager
 
 # Referencing project's vpc to use on other resources
 data "aws_vpc" "techchallenge-vpc" {
@@ -34,9 +32,9 @@ resource "aws_db_subnet_group" "rds_subnets" {
 }
 
 # Creating RDS instance
-resource "aws_db_instance" "test_mysql" {
+resource "aws_db_instance" "rds_db" {
   engine                 = "mysql"
-  identifier             = "test-mysql"
+  identifier             = "techchallenge-rds"
   allocated_storage      = 20
   engine_version         = "8.0.35"
   instance_class         = "db.t3.small"
@@ -45,10 +43,13 @@ resource "aws_db_instance" "test_mysql" {
   skip_final_snapshot    = true
   publicly_accessible    = false
   multi_az               = false
-  db_name                = "test_db"
+  db_name                = "techchallenge"
   port                   = 3306
   db_subnet_group_name   = aws_db_subnet_group.rds_subnets.name
-  vpc_security_group_ids = [aws_security_group.rds_sg.id]
+  vpc_security_group_ids = [
+    aws_security_group.rds_sg.id,
+    aws_security_group.rds-lambda-sg.id
+  ]
 }
 
 
@@ -66,7 +67,9 @@ resource "aws_security_group" "rds_sg" {
     from_port       = 3306
     to_port         = 3306
     protocol        = "tcp"
-    security_groups = [data.aws_eks_cluster.techchallenge-eks-cluster.vpc_config[0].cluster_security_group_id]
+    security_groups = [
+      data.aws_eks_cluster.techchallenge-eks-cluster.vpc_config[0].cluster_security_group_id
+    ]
   }
 
   # TODO: Make more restrictive
