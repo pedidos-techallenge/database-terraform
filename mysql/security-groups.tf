@@ -14,11 +14,11 @@ resource "aws_security_group" "rds-eks-sg" {
 
 # Security group rule, RDS -> EKS
 resource "aws_security_group_rule" "rds-eks-sgr" {
-  type = "ingress"
-  from_port       = 3306
-  to_port         = 3306
-  protocol        = "tcp"
-  security_group_id = aws_security_group.rds-eks-sg.id
+  type                     = "ingress"
+  from_port                = 3306
+  to_port                  = 3306
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.rds-eks-sg.id
   source_security_group_id = data.aws_eks_cluster.techchallenge-eks-cluster.vpc_config[0].cluster_security_group_id
 }
 
@@ -36,22 +36,22 @@ resource "aws_security_group" "lambda-rds-sg" {
 
 # Security group rules, RDS -> Lambda
 resource "aws_security_group_rule" "rds-lambda-sgr" {
-  type = "ingress"
-  from_port = 3306
-  to_port         = 3306
-  protocol        = "tcp"
-  security_group_id = aws_security_group.rds-lambda-sg.id
+  type                     = "ingress"
+  from_port                = 3306
+  to_port                  = 3306
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.rds-lambda-sg.id
   source_security_group_id = aws_security_group.lambda-rds-sg.id
-  depends_on = [ aws_security_group.lambda-rds-sg ]
+  depends_on               = [aws_security_group.lambda-rds-sg]
 }
 
 # RDS <- Lambda
 resource "aws_security_group_rule" "lambda-rds-sgr" {
-  type = "egress"
-  from_port = 3306
-  to_port         = 3306
-  protocol        = "tcp"
-  security_group_id = aws_security_group.lambda-rds-sg.id
+  type                     = "egress"
+  from_port                = 3306
+  to_port                  = 3306
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.lambda-rds-sg.id
   source_security_group_id = aws_security_group.rds-lambda-sg.id
-  depends_on = [ aws_security_group.rds-lambda-sg ]
+  depends_on               = [aws_security_group.rds-lambda-sg]
 }

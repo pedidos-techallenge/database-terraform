@@ -28,7 +28,7 @@ data "aws_subnets" "private-subnets" {
 
 # RDS instance
 data "aws_db_instance" "rds_db" {
-  db_instance_identifier =  "techchallenge-rds"
+  db_instance_identifier = "techchallenge-rds"
 }
 
 data "aws_security_group" "lambda-rds-sg" {
