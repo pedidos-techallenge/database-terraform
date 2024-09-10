@@ -2,7 +2,7 @@
 
 Script Terraform para criação de um banco MySQL no RDS.  
 
-No arquivo MER.md temos o diagrama de relacionamento das tabelas e documentação sobre as definições do banco de dados.
+No arquivo [MER.md](MER.md) temos o diagrama de relacionamento das tabelas e documentação sobre as definições do banco de dados.
 
 ## Dependências:
 
