@@ -30,7 +30,7 @@ resource "aws_db_instance" "rds_db" {
   skip_final_snapshot  = true
   publicly_accessible  = false
   multi_az             = false
-  db_name              = "techchallenge"
+  db_name              = "dbtechchallange"
   port                 = 3306
   db_subnet_group_name = aws_db_subnet_group.rds_subnets.name
   vpc_security_group_ids = [
