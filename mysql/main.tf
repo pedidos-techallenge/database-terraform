@@ -2,6 +2,7 @@ terraform {
   backend "s3" {
     bucket = "techchallangebucket"    
     region = "us-east-1"
+    key    = "mysql.tfstate"
   }
 }
 

@@ -29,14 +29,14 @@ jobs:
 
       # Deploy the MySQL RDS instance
       - name: terraform-init
-        run: terraform -chdir=./mysql init -backend-config="key=mysql.tfstate"
+        run: terraform -chdir=./mysql init
 
       - name: terraform-apply
         run: terraform -chdir=./mysql apply -auto-approve -var "MYSQL_USERNAME=${MYSQL_USERNAME}" -var "MYSQL_PASSWORD=${MYSQL_PASSWORD}"
 
       # Lambda Function for initializing the database tables
       - name: terraform-init
-        run: terraform -chdir=./lambda-initdb init -backend-config="key=lambda-initdb.tfstate"
+        run: terraform -chdir=./lambda-initdb init 
 
       - name: terraform-apply
         run: terraform -chdir=./lambda-initdb apply -auto-approve -var "MYSQL_USERNAME=${MYSQL_USERNAME}" -var "MYSQL_PASSWORD=${MYSQL_PASSWORD}"
