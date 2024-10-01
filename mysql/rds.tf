@@ -1,47 +1,21 @@
 ### RDS subnets
 # Referencing private subnets
-data "aws_subnets" "private-subnets" {
+data "aws_subnets" "private" {
   filter {
-    name   = "vpc-id"
-    values = [data.aws_vpc.techchallenge-vpc.id]
+    name   = "tag:kubernetes.io/role/internal-elb"
+    values = ["1"]
   }
 
   filter {
-    name   = "tag:Name"
-    values = ["*private*"]
-  }
-}
-
-data "aws_subnet" "private_az1" {
-  filter {
     name   = "vpc-id"
     values = [data.aws_vpc.techchallenge-vpc.id]
-  }
-  filter {
-    name   = "tag:Name"
-    values = ["subnet-private-az1"]
-  }
-  
-}
-
-data "aws_subnet" "private_az2" {
-  filter {
-    name   = "vpc-id"
-    values = [data.aws_vpc.techchallenge-vpc.id]
-  }
-  filter {
-    name   = "tag:Name"
-    values = ["subnet-private-az2"]
   }
 }
 
 # RDS subnets must be in a sg group
 resource "aws_db_subnet_group" "rds_subnets" {
   name       = "rds_subnets"
-  subnet_ids = [
-    data.aws_subnet.private_az1.id,
-    data.aws_subnet.private_az2.id,
-  ]
+  subnet_ids = data.aws_subnets.private.ids
 }
 
 # Creating RDS instance
